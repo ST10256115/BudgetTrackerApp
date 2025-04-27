@@ -51,4 +51,5 @@ class ExpenseViewModel(application: Application) : AndroidViewModel(application)
             _categoryTotals.postValue(totals)
         }
     }
+
 }

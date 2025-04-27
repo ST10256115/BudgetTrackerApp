@@ -9,6 +9,10 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import android.content.Intent
+
+
 
 class MainActivity : AppCompatActivity() {
     private val expenseViewModel: ExpenseViewModel by viewModels()
@@ -32,5 +36,15 @@ class MainActivity : AppCompatActivity() {
 
         // Load all expenses when app starts
         expenseViewModel.getAllExpenses()
+
+        val fab: FloatingActionButton = findViewById(R.id.fabAddExpense)
+
+        fab.setOnClickListener {
+            val intent = Intent(this, NewExpenseActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
+
 }
