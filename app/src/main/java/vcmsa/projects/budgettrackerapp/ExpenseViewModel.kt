@@ -1,6 +1,5 @@
 package vcmsa.projects.budgettrackerapp
 
-
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -12,6 +11,7 @@ import kotlinx.coroutines.launch
 class ExpenseViewModel(application: Application) : AndroidViewModel(application) {
 
     private val expenseRepository: ExpenseRepository = ExpenseRepository(application)
+    private val categoryRepository: CategoryRepository = CategoryRepository(application) // Added CategoryRepository
 
     // LiveData for expenses
     private val _expenses = MutableLiveData<List<ExpenseEntity>>()
@@ -20,6 +20,10 @@ class ExpenseViewModel(application: Application) : AndroidViewModel(application)
     // LiveData for category totals
     private val _categoryTotals = MutableLiveData<List<CategoryTotal>>()
     val categoryTotals: LiveData<List<CategoryTotal>> get() = _categoryTotals
+
+    // LiveData for categories
+    private val _categories = MutableLiveData<List<CategoryEntity>>() // LiveData for categories
+    val categories: LiveData<List<CategoryEntity>> get() = _categories // Exposed as a public LiveData
 
     // Insert an expense
     fun insertExpense(expense: ExpenseEntity) {
@@ -49,6 +53,14 @@ class ExpenseViewModel(application: Application) : AndroidViewModel(application)
         CoroutineScope(Dispatchers.IO).launch {
             val totals = expenseRepository.getTotalByCategory(startDate, endDate)
             _categoryTotals.postValue(totals)
+        }
+    }
+
+    // Get all categories
+    fun getAllCategories() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val categoriesList = categoryRepository.getAllCategories() // Fetch categories from CategoryRepository
+            _categories.postValue(categoriesList)
         }
     }
 

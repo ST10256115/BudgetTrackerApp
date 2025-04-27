@@ -23,6 +23,9 @@ interface ExpenseDao {
     @Query("SELECT * FROM expenses WHERE date BETWEEN :startDate AND :endDate ORDER BY date DESC")
     suspend fun getExpensesBetweenDates(startDate: String, endDate: String): List<ExpenseEntity>
 
-    @Query("SELECT category, SUM(amount) FROM expenses WHERE date BETWEEN :startDate AND :endDate GROUP BY category")
+    @Query("SELECT c.name AS category, SUM(e.amount) FROM expenses e " +
+            "JOIN categories c ON e.categoryId = c.id " +
+            "WHERE e.date BETWEEN :startDate AND :endDate " +
+            "GROUP BY c.name")
     suspend fun getTotalAmountByCategory(startDate: String, endDate: String): List<CategoryTotal>
 }

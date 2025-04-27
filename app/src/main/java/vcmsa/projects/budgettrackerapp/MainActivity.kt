@@ -1,18 +1,13 @@
 package vcmsa.projects.budgettrackerapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.content.Intent
-
-
+import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
     private val expenseViewModel: ExpenseViewModel by viewModels()
@@ -37,14 +32,18 @@ class MainActivity : AppCompatActivity() {
         // Load all expenses when app starts
         expenseViewModel.getAllExpenses()
 
-        val fab: FloatingActionButton = findViewById(R.id.fabAddExpense)
-
-        fab.setOnClickListener {
+        // Handle "Add Expense" button click
+        val btnAddExpense: Button = findViewById(R.id.btnAddExpense)
+        btnAddExpense.setOnClickListener {
             val intent = Intent(this, NewExpenseActivity::class.java)
             startActivity(intent)
         }
 
-
+        // Handle "Add Category" button click
+        val btnAddCategory: Button = findViewById(R.id.btnAddCategory)
+        btnAddCategory.setOnClickListener {
+            val intent = Intent(this, NewCategoryActivity::class.java)
+            startActivity(intent)
+        }
     }
-
 }
