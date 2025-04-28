@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.room.Room
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ExpenseRepository(context: Context) {
 
     private val expenseDao: ExpenseDao = DatabaseBuilder.getDatabase(context).expenseDao()
-    private val categoryDao: CategoryDao = DatabaseBuilder.getDatabase(context).categoryDao()  // Accessing CategoryDao
+    private val categoryDao: CategoryDao = DatabaseBuilder.getDatabase(context).categoryDao()
 
     // Insert an expense into the database
     suspend fun insertExpense(expense: ExpenseEntity) {
@@ -26,16 +28,30 @@ class ExpenseRepository(context: Context) {
 
     // Get expenses by date range
     suspend fun getExpensesBetweenDates(startDate: String, endDate: String): List<ExpenseEntity> {
+        // Ensure dates are in the proper format
+        val start = formatDate(startDate)
+        val end = formatDate(endDate)
+
         return withContext(Dispatchers.IO) {
-            expenseDao.getExpensesBetweenDates(startDate, endDate)
+            expenseDao.getExpensesBetweenDates(start, end)
         }
     }
 
     // Get total amount by category in a date range
     suspend fun getTotalByCategory(startDate: String, endDate: String): List<CategoryTotal> {
+        val start = formatDate(startDate)
+        val end = formatDate(endDate)
+
         return withContext(Dispatchers.IO) {
-            expenseDao.getTotalAmountByCategory(startDate, endDate)
+            expenseDao.getTotalAmountByCategory(start, end)
         }
+    }
+
+    // Format date to ensure it matches the format in the database (e.g., yyyy-MM-dd HH:mm:ss)
+    private fun formatDate(dateString: String): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = dateFormat.parse(dateString)
+        return SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(date)
     }
 
     // Insert a category into the database

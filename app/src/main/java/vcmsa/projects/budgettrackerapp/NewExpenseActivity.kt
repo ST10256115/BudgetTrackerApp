@@ -1,6 +1,5 @@
 package vcmsa.projects.budgettrackerapp
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -13,6 +12,8 @@ import android.widget.AdapterView
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewExpenseActivity : ComponentActivity() {
 
@@ -20,14 +21,13 @@ class NewExpenseActivity : ComponentActivity() {
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var spinnerCategory: Spinner
     private var selectedCategoryId: Long = 0
-
     private lateinit var buttonChoosePhoto: Button
     private var photoPath: String? = null
 
-    // Using the new way to get image (no deprecated methods)
+    // Launcher for picking an image
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        if (uri != null) {
-            photoPath = uri.toString()
+        uri?.let {
+            photoPath = it.toString()
             Toast.makeText(this, "Photo selected", Toast.LENGTH_SHORT).show()
         }
     }
@@ -36,14 +36,16 @@ class NewExpenseActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_expense)
 
+        // Initialize UI components
         val editTextDescription = findViewById<EditText>(R.id.editTextDescription)
         val editTextAmount = findViewById<EditText>(R.id.editTextAmount)
         spinnerCategory = findViewById(R.id.spinnerCategory)
-        val editTextStartTime = findViewById<EditText>(R.id.editTextStartTime)
-        val editTextEndTime = findViewById<EditText>(R.id.editTextEndTime)
+        val editTextStartDate = findViewById<EditText>(R.id.editTextStartDate)  // Start Date EditText
+        val editTextEndDate = findViewById<EditText>(R.id.editTextEndDate)      // End Date EditText
         val buttonSaveExpense = findViewById<Button>(R.id.buttonSaveExpense)
         buttonChoosePhoto = findViewById(R.id.buttonChoosePhoto)
 
+        // Initialize ViewModels
         expenseViewModel = ViewModelProvider(this)[ExpenseViewModel::class.java]
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 
@@ -65,6 +67,7 @@ class NewExpenseActivity : ComponentActivity() {
             }
         }
 
+        // Fetch all categories
         categoryViewModel.getAllCategories()
 
         // Handle choosing a photo
@@ -76,29 +79,28 @@ class NewExpenseActivity : ComponentActivity() {
         buttonSaveExpense.setOnClickListener {
             val description = editTextDescription.text.toString()
             val amountText = editTextAmount.text.toString()
-            val startTime = editTextStartTime.text.toString()
-            val endTime = editTextEndTime.text.toString()
+            val startDate = editTextStartDate.text.toString()  // Get the Start Date input
+            val endDate = editTextEndDate.text.toString()      // Get the End Date input
 
-            if (description.isEmpty() || amountText.isEmpty() || startTime.isEmpty() || endTime.isEmpty()) {
+            if (description.isEmpty() || amountText.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else {
                 val amount = amountText.toDouble()
 
+                // Store the raw date as entered by the user (no formatting)
                 val newExpense = ExpenseEntity(
                     id = 0,
                     description = description,
                     amount = amount,
-                    date = System.currentTimeMillis().toString(),
-                    startTime = startTime,
-                    endTime = endTime,
+                    date = startDate,  // Directly store the entered start date as `date`
+                    startTime = startDate,  // Use the Start Date as startTime
+                    endTime = endDate,      // Use the End Date as endTime
                     categoryId = selectedCategoryId,
-                    photoPath = photoPath // Save selected photo path
+                    photoPath = photoPath
                 )
 
                 expenseViewModel.insertExpense(newExpense)
-
                 Toast.makeText(this, "Expense Saved", Toast.LENGTH_SHORT).show()
-
                 finish()
             }
         }

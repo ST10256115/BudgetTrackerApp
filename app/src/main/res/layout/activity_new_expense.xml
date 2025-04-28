@@ -16,12 +16,12 @@
             android:layout_height="wrap_content"
             android:text="Choose Photo" />
 
-
         <EditText
             android:id="@+id/editTextDescription"
             android:hint="Enter Description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
 
         <EditText
             android:id="@+id/editTextAmount"
@@ -31,26 +31,30 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"/>
 
-
+        <!-- Spinner for selecting a category -->
         <Spinner
             android:id="@+id/spinnerCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"/>
 
+        <!-- Start Date-Time EditText -->
         <EditText
-            android:id="@+id/editTextStartTime"
-            android:hint="Enter Start Time (e.g., 08:00 AM)"
+            android:id="@+id/editTextStartDate"
+            android:hint="Enter Start Date (yyyy-MM-dd HH:mm:ss)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:inputType="datetime"/>
 
+        <!-- End Date-Time EditText -->
         <EditText
-            android:id="@+id/editTextEndTime"
-            android:hint="Enter End Time (e.g., 09:00 AM)"
+            android:id="@+id/editTextEndDate"
+            android:hint="Enter End Date (yyyy-MM-dd HH:mm:ss)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:inputType="datetime"/>
 
         <Button
             android:id="@+id/buttonSaveExpense"
@@ -59,5 +63,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"/>
+
     </LinearLayout>
 </ScrollView>
