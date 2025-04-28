@@ -1,5 +1,7 @@
 package vcmsa.projects.budgettrackerapp
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -9,6 +11,7 @@ import android.widget.Toast
 import android.view.View
 import android.widget.AdapterView
 import androidx.activity.ComponentActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 
 class NewExpenseActivity : ComponentActivity() {
@@ -17,6 +20,17 @@ class NewExpenseActivity : ComponentActivity() {
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var spinnerCategory: Spinner
     private var selectedCategoryId: Long = 0
+
+    private lateinit var buttonChoosePhoto: Button
+    private var photoPath: String? = null
+
+    // Using the new way to get image (no deprecated methods)
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            photoPath = uri.toString()
+            Toast.makeText(this, "Photo selected", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,19 +42,19 @@ class NewExpenseActivity : ComponentActivity() {
         val editTextStartTime = findViewById<EditText>(R.id.editTextStartTime)
         val editTextEndTime = findViewById<EditText>(R.id.editTextEndTime)
         val buttonSaveExpense = findViewById<Button>(R.id.buttonSaveExpense)
+        buttonChoosePhoto = findViewById(R.id.buttonChoosePhoto)
 
         expenseViewModel = ViewModelProvider(this)[ExpenseViewModel::class.java]
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 
         // Observe categories and populate spinner
-        categoryViewModel.categories.observe(this, { categories ->
+        categoryViewModel.categories.observe(this) { categories ->
             val categoryNames = categories.map { it.name }
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryNames)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerCategory.adapter = adapter
 
-            // Set the item selected listener for the spinner
-            spinnerCategory.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                     selectedCategoryId = categories[position].id
                 }
@@ -48,12 +62,17 @@ class NewExpenseActivity : ComponentActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>) {
                     Toast.makeText(this@NewExpenseActivity, "Please select a category", Toast.LENGTH_SHORT).show()
                 }
-            })
-        })
+            }
+        }
 
-        // Fetch categories when the activity starts
         categoryViewModel.getAllCategories()
 
+        // Handle choosing a photo
+        buttonChoosePhoto.setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
+
+        // Handle saving the expense
         buttonSaveExpense.setOnClickListener {
             val description = editTextDescription.text.toString()
             val amountText = editTextAmount.text.toString()
@@ -66,13 +85,14 @@ class NewExpenseActivity : ComponentActivity() {
                 val amount = amountText.toDouble()
 
                 val newExpense = ExpenseEntity(
-                    id = 0,  // ID will be auto-generated
+                    id = 0,
                     description = description,
                     amount = amount,
                     date = System.currentTimeMillis().toString(),
                     startTime = startTime,
                     endTime = endTime,
-                    categoryId = selectedCategoryId  // Save the selected category ID
+                    categoryId = selectedCategoryId,
+                    photoPath = photoPath // Save selected photo path
                 )
 
                 expenseViewModel.insertExpense(newExpense)

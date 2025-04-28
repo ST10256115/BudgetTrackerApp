@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             expenseAdapter.updateExpenses(expenses)
         })
 
-        // Load all expenses when app starts
+        // Load all expenses initially
         expenseViewModel.getAllExpenses()
 
         // Handle "Add Expense" button click
@@ -45,5 +45,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, NewCategoryActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        expenseViewModel.getAllExpenses()
     }
 }
