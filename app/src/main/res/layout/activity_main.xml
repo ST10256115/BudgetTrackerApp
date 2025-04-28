@@ -14,9 +14,20 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" /> <!-- Adjusted to use weight for RecyclerView to occupy available space -->
-
+            android:layout_weight="1" />
     </LinearLayout>
+
+    <!-- Button for resetting expenses -->
+    <Button
+        android:id="@+id/btnResetExpenses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnSortByTimePeriod"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@color/black"
+        android:text="Reset Expenses"
+        android:textColor="#FFFFFF" />
 
     <!-- Button for sorting by time period -->
     <Button
@@ -26,9 +37,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="80dp"
-    android:background="@color/black"
-    android:text="Sort by Time Period"
-    android:textColor="#FFFFFF" />
+        android:background="@color/black"
+        android:text="Sort by Time Period"
+        android:textColor="#FFFFFF" />
 
     <!-- Button for adding a category -->
     <Button

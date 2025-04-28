@@ -1,7 +1,9 @@
 package vcmsa.projects.budgettrackerapp
 
 import android.os.Bundle
+import android.widget.EditText
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,30 +37,28 @@ class MainActivity : AppCompatActivity() {
         // Load all expenses initially
         expenseViewModel.getAllExpenses()
 
-        // Handle "Add Expense" button click
         val btnAddExpense: Button = findViewById(R.id.btnAddExpense)
         btnAddExpense.setOnClickListener {
             val intent = Intent(this, NewExpenseActivity::class.java)
             startActivity(intent)
         }
 
-        // Handle "Add Category" button click
         val btnAddCategory: Button = findViewById(R.id.btnAddCategory)
         btnAddCategory.setOnClickListener {
             val intent = Intent(this, NewCategoryActivity::class.java)
             startActivity(intent)
         }
 
-        // Handle "Sort by Time Period" button click
         val btnSortByTimePeriod: Button = findViewById(R.id.btnSortByTimePeriod)
         btnSortByTimePeriod.setOnClickListener {
-            // Show a simple message that sorting is applied
-            Toast.makeText(this, "Sorting by Time Period", Toast.LENGTH_SHORT).show()
+            showDateRangeDialog()
+        }
 
-            // Get expenses for "today"
-            val todayStartDate = getTodayStartDate()
-            val todayEndDate = getTodayEndDate()
-            expenseViewModel.getExpensesBetweenDates(todayStartDate, todayEndDate)
+
+        val btnResetExpenses: Button = findViewById(R.id.btnResetExpenses)
+        btnResetExpenses.setOnClickListener {
+            expenseViewModel.getAllExpenses()
+            Toast.makeText(this, "Showing all expenses", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -67,27 +67,28 @@ class MainActivity : AppCompatActivity() {
         expenseViewModel.getAllExpenses()
     }
 
-    // Get the start date of today (midnight)
-    private fun getTodayStartDate(): String {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
+    // This function shows a dialog to enter start and end dates
+    private fun showDateRangeDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_date_range, null)
+        val editStartDate = dialogView.findViewById<EditText>(R.id.editStartDate)
+        val editEndDate = dialogView.findViewById<EditText>(R.id.editEndDate)
 
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        return dateFormat.format(calendar.time)
-    }
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Select Time Period")
+            .setView(dialogView)
+            .setPositiveButton("Filter") { _, _ ->
+                val startDate = editStartDate.text.toString()
+                val endDate = editEndDate.text.toString()
 
-    // Get the end date of today (11:59:59 PM)
-    private fun getTodayEndDate(): String {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 23)
-        calendar.set(Calendar.MINUTE, 59)
-        calendar.set(Calendar.SECOND, 59)
-        calendar.set(Calendar.MILLISECOND, 999)
+                if (startDate.isNotEmpty() && endDate.isNotEmpty()) {
+                    expenseViewModel.getExpensesBetweenDates(startDate, endDate)
+                } else {
+                    Toast.makeText(this, "Please enter both start and end dates.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
 
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        return dateFormat.format(calendar.time)
+        dialog.show()
     }
 }
