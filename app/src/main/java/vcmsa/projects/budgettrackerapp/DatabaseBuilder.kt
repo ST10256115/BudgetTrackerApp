@@ -9,13 +9,15 @@ object DatabaseBuilder {
     private var INSTANCE: AppDatabase? = null
 
     fun getDatabase(context: Context): AppDatabase {
-        // Return existing database instance or create a new one
         return INSTANCE ?: synchronized(this) {
             val instance = Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
                 "budget_tracker_db"
-            ).build()
+            )
+                .addMigrations(AppDatabase.MIGRATION_2_3) // Register migration here
+                .fallbackToDestructiveMigrationOnDowngrade() // Optional safety if downgrading
+                .build()
             INSTANCE = instance
             instance
         }
