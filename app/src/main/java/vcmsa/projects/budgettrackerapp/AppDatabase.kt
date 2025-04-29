@@ -4,11 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [ExpenseEntity::class, CategoryEntity::class],
-    version = 2,
+    entities = [ExpenseEntity::class, CategoryEntity::class, SpendingGoalEntity::class], // Added SpendingGoalEntity
+    version = 3, // Bumped version from 2 to 3
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun expenseDao(): ExpenseDao
-    abstract fun categoryDao(): CategoryDao  // Add the CategoryDao
+    abstract fun expenseDao(): ExpenseDao  //added expensedao
+    abstract fun categoryDao(): CategoryDao //added category dao
+    abstract fun spendingGoalDao(): SpendingGoalDao // Added the SpendingGoalDao
 }

@@ -13,13 +13,11 @@
         android:theme="@style/Theme.BudgetTrackerApp"
         tools:targetApi="31">
         <activity
-            android:name=".NewCategoryActivity"
+            android:name=".SetSpendingGoalActivity"
             android:exported="false" />
+        <!-- LoginActivity becomes the launcher activity -->
         <activity
-            android:name=".NewExpenseActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".NewCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewExpenseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

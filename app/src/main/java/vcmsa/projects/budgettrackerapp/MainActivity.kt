@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.content.Intent
 import android.widget.Button
 import android.widget.Toast
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val expenseViewModel: ExpenseViewModel by viewModels()
@@ -54,11 +52,20 @@ class MainActivity : AppCompatActivity() {
             showDateRangeDialog()
         }
 
-
         val btnResetExpenses: Button = findViewById(R.id.btnResetExpenses)
         btnResetExpenses.setOnClickListener {
             expenseViewModel.getAllExpenses()
             Toast.makeText(this, "Showing all expenses", Toast.LENGTH_SHORT).show()
+        }
+
+        val btnViewCategoryTotals: Button = findViewById(R.id.btnViewCategoryTotals)
+        btnViewCategoryTotals.setOnClickListener {
+            showCategoryTotalsDialog()
+        }
+
+        val btnFilterByCategoryAndTime: Button = findViewById(R.id.btnFilterByCategoryAndTime)
+        btnFilterByCategoryAndTime.setOnClickListener {
+            showCategoryAndTimeDialog()
         }
     }
 
@@ -67,7 +74,6 @@ class MainActivity : AppCompatActivity() {
         expenseViewModel.getAllExpenses()
     }
 
-    // This function shows a dialog to enter start and end dates
     private fun showDateRangeDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_date_range, null)
         val editStartDate = dialogView.findViewById<EditText>(R.id.editStartDate)
@@ -84,6 +90,56 @@ class MainActivity : AppCompatActivity() {
                     expenseViewModel.getExpensesBetweenDates(startDate, endDate)
                 } else {
                     Toast.makeText(this, "Please enter both start and end dates.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun showCategoryTotalsDialog() {
+        expenseViewModel.categoryTotals.observe(this) { totals ->
+            if (totals.isEmpty()) {
+                Toast.makeText(this, "No data to display.", Toast.LENGTH_SHORT).show()
+            } else {
+                val totalsMessage = totals.joinToString("\n") { "${it.category}: R${it.total}" }
+                AlertDialog.Builder(this)
+                    .setTitle("Category Totals")
+                    .setMessage(totalsMessage)
+                    .setPositiveButton("OK", null)
+                    .show()
+            }
+        }
+
+        // Fetch totals from 2000 to 2099 to include everything
+        expenseViewModel.getTotalByCategory("2000-01-01 00:00:00", "2099-12-31 23:59:59")
+    }
+
+    private fun showCategoryAndTimeDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_category_time_range, null)
+        val editCategoryName = dialogView.findViewById<EditText>(R.id.editCategoryName)
+        val editStartDate = dialogView.findViewById<EditText>(R.id.editStartDate)
+        val editEndDate = dialogView.findViewById<EditText>(R.id.editEndDate)
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Filter by Category and Time")
+            .setView(dialogView)
+            .setPositiveButton("Filter") { _, _ ->
+                val categoryName = editCategoryName.text.toString()
+                val startDate = editStartDate.text.toString()
+                val endDate = editEndDate.text.toString()
+
+                if (categoryName.isNotEmpty() && startDate.isNotEmpty() && endDate.isNotEmpty()) {
+                    // Filter manually after fetching expenses
+                    expenseViewModel.getExpensesBetweenDates(startDate, endDate)
+
+                    expenseViewModel.expenses.observe(this) { expenses ->
+                        val filtered = expenses.filter { it.categoryId.toString() == categoryName }
+                        expenseAdapter.updateExpenses(filtered)
+                    }
+                } else {
+                    Toast.makeText(this, "Please enter all fields.", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Cancel", null)

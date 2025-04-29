@@ -17,6 +17,30 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <!-- Button for filtering by category and time -->
+    <Button
+        android:id="@+id/btnFilterByCategoryAndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnViewCategoryTotals"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@color/black"
+        android:text="Filter by Category and Time"
+        android:textColor="#FFFFFF" />
+
+    <!-- Button for viewing category totals -->
+    <Button
+        android:id="@+id/btnViewCategoryTotals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnResetExpenses"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@color/black"
+        android:text="View Category Totals"
+        android:textColor="#FFFFFF" />
+
     <!-- Button for resetting expenses -->
     <Button
         android:id="@+id/btnResetExpenses"
