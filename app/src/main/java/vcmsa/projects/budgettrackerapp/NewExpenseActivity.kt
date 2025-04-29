@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import java.text.SimpleDateFormat
 import java.util.*
 
+// Developed with guidance and assistance using best practices from Android documentation and community standards.
+
 class NewExpenseActivity : ComponentActivity() {
 
     private lateinit var expenseViewModel: ExpenseViewModel

@@ -12,6 +12,7 @@ import android.content.Intent
 import android.widget.Button
 import android.widget.Toast
 
+// Developed with guidance and assistance using best practices from Android documentation and community standards.
 class MainActivity : AppCompatActivity() {
     private val expenseViewModel: ExpenseViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView

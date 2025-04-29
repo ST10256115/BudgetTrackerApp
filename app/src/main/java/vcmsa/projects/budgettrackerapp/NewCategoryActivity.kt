@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 
+// Developed with guidance and assistance using best practices from Android documentation and community standards.
+
 class NewCategoryActivity : AppCompatActivity() {
 
     // Get the viewModel to interact with the CategoryDao
