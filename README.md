@@ -42,18 +42,18 @@ vcmsa.projects.budgettrackerapp │ ├── data (entities, dao, database buil
 
 5. Default login credentials:
 
-   Username: shivar
+   - Username: shivar
 
-   Password: password
+   - Password: password
 
-🧪 GitHub Actions CI
-Automatically builds and tests the app when pushing to the master branch.
+GitHub Actions CI
+- Automatically builds and tests the app when pushing to the master branch.
 
-Gradle tasks executed:
+- Gradle tasks executed:
 
-assembleDebug
+- assembleDebug
 
-test
+- test
 
 Demo Video
 https://youtu.be/BwjJLUys-04
