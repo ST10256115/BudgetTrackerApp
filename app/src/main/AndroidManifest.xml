@@ -12,28 +12,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BudgetTrackerApp"
         tools:targetApi="31">
+
+        <!-- SetSpendingGoalActivity (not launcher) -->
         <activity
             android:name=".SetSpendingGoalActivity"
             android:exported="false" />
-        <!-- LoginActivity becomes the launcher activity -->
+
+        <!-- LoginActivity (launcher) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- NewCategoryActivity -->
         <activity
             android:name=".NewCategoryActivity"
             android:exported="false" />
+
+        <!-- NewExpenseActivity -->
         <activity
             android:name=".NewExpenseActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true" />
+
     </application>
 
 </manifest>

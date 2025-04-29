@@ -9,27 +9,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/editMinGoal"
-            android:hint="Enter Minimum Goal (e.g., 500)"
-            android:inputType="numberDecimal"
+        <!-- Minimum Goal Section -->
+        <TextView
+            android:id="@+id/textMinGoalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minimum Goal: R0"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+        <SeekBar
+            android:id="@+id/seekBarMinGoal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:max="10000"
+            android:layout_marginBottom="24dp" />
 
-        <EditText
-            android:id="@+id/editMaxGoal"
-            android:hint="Enter Maximum Goal (e.g., 5000)"
-            android:inputType="numberDecimal"
+        <!-- Maximum Goal Section -->
+        <TextView
+            android:id="@+id/textMaxGoalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maximum Goal: R0"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+        <SeekBar
+            android:id="@+id/seekBarMaxGoal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"/>
+            android:max="20000"
+            android:layout_marginBottom="24dp" />
 
+        <!-- Save Button -->
         <Button
             android:id="@+id/buttonSaveGoal"
             android:text="Save Goal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
+            android:minHeight="56dp"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 </ScrollView>

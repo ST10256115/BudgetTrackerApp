@@ -27,45 +27,51 @@ class MainActivity : AppCompatActivity() {
         expenseAdapter = ExpenseAdapter(emptyList())
         recyclerView.adapter = expenseAdapter
 
-        // Observe the expenses LiveData
         expenseViewModel.expenses.observe(this, Observer { expenses ->
+            if (expenses.isEmpty()) {
+                Toast.makeText(this, "No expenses found", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Loaded ${expenses.size} expenses", Toast.LENGTH_SHORT).show()
+                expenses.forEach {
+                    println("Expense Loaded -> Description: ${it.description}, Amount: ${it.amount}, Date: ${it.date}")
+                }
+            }
             expenseAdapter.updateExpenses(expenses)
         })
 
-        // Load all expenses initially
         expenseViewModel.getAllExpenses()
 
-        val btnAddExpense: Button = findViewById(R.id.btnAddExpense)
-        btnAddExpense.setOnClickListener {
-            val intent = Intent(this, NewExpenseActivity::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.btnAddExpense).setOnClickListener {
+            startActivity(Intent(this, NewExpenseActivity::class.java))
         }
 
-        val btnAddCategory: Button = findViewById(R.id.btnAddCategory)
-        btnAddCategory.setOnClickListener {
-            val intent = Intent(this, NewCategoryActivity::class.java)
-            startActivity(intent)
+        findViewById<Button>(R.id.btnAddCategory).setOnClickListener {
+            startActivity(Intent(this, NewCategoryActivity::class.java))
         }
 
-        val btnSortByTimePeriod: Button = findViewById(R.id.btnSortByTimePeriod)
-        btnSortByTimePeriod.setOnClickListener {
+        findViewById<Button>(R.id.btnSortByTimePeriod).setOnClickListener {
             showDateRangeDialog()
         }
 
-        val btnResetExpenses: Button = findViewById(R.id.btnResetExpenses)
-        btnResetExpenses.setOnClickListener {
+        findViewById<Button>(R.id.btnResetExpenses).setOnClickListener {
             expenseViewModel.getAllExpenses()
             Toast.makeText(this, "Showing all expenses", Toast.LENGTH_SHORT).show()
         }
 
-        val btnViewCategoryTotals: Button = findViewById(R.id.btnViewCategoryTotals)
-        btnViewCategoryTotals.setOnClickListener {
+        findViewById<Button>(R.id.btnViewCategoryTotals).setOnClickListener {
             showCategoryTotalsDialog()
         }
 
-        val btnFilterByCategoryAndTime: Button = findViewById(R.id.btnFilterByCategoryAndTime)
-        btnFilterByCategoryAndTime.setOnClickListener {
+        findViewById<Button>(R.id.btnFilterByCategoryAndTime).setOnClickListener {
             showCategoryAndTimeDialog()
+        }
+
+        findViewById<Button>(R.id.btnSetSpendingGoal).setOnClickListener {
+            startActivity(Intent(this, SetSpendingGoalActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnDeleteAllExpenses).setOnClickListener {
+            showConfirmDeleteDialog()
         }
     }
 
@@ -112,7 +118,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Fetch totals from 2000 to 2099 to include everything
         expenseViewModel.getTotalByCategory("2000-01-01 00:00:00", "2099-12-31 23:59:59")
     }
 
@@ -131,18 +136,40 @@ class MainActivity : AppCompatActivity() {
                 val endDate = editEndDate.text.toString()
 
                 if (categoryName.isNotEmpty() && startDate.isNotEmpty() && endDate.isNotEmpty()) {
-                    // Filter manually after fetching expenses
                     expenseViewModel.getExpensesBetweenDates(startDate, endDate)
 
                     expenseViewModel.expenses.observe(this) { expenses ->
-                        val filtered = expenses.filter { it.categoryId.toString() == categoryName }
-                        expenseAdapter.updateExpenses(filtered)
+                        expenseViewModel.categories.observe(this) { categories ->
+                            val matchedCategory = categories.find { it.name.equals(categoryName, ignoreCase = true) }
+                            val matchedCategoryId = matchedCategory?.id
+
+                            if (matchedCategoryId != null) {
+                                val filteredExpenses = expenses.filter { it.categoryId == matchedCategoryId }
+                                expenseAdapter.updateExpenses(filteredExpenses)
+                            } else {
+                                Toast.makeText(this, "No matching category found.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                 } else {
                     Toast.makeText(this, "Please enter all fields.", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
+    }
+
+    private fun showConfirmDeleteDialog() {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Delete All Expenses")
+            .setMessage("Are you sure you want to delete ALL expenses? This action cannot be undone.")
+            .setPositiveButton("Yes") { _, _ ->
+                expenseViewModel.deleteAllExpenses()
+                Toast.makeText(this, "All expenses deleted successfully!", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("No", null)
             .create()
 
         dialog.show()

@@ -11,56 +11,75 @@ import kotlinx.coroutines.launch
 class ExpenseViewModel(application: Application) : AndroidViewModel(application) {
 
     private val expenseRepository: ExpenseRepository = ExpenseRepository(application)
-    private val categoryRepository: CategoryRepository = CategoryRepository(application) // Added CategoryRepository
+    private val categoryRepository: CategoryRepository = CategoryRepository(application)
 
-    // LiveData for expenses
     private val _expenses = MutableLiveData<List<ExpenseEntity>>()
     val expenses: LiveData<List<ExpenseEntity>> get() = _expenses
 
-    // LiveData for category totals
     private val _categoryTotals = MutableLiveData<List<CategoryTotal>>()
     val categoryTotals: LiveData<List<CategoryTotal>> get() = _categoryTotals
 
-    // LiveData for categories
-    private val _categories = MutableLiveData<List<CategoryEntity>>() // LiveData for categories
-    val categories: LiveData<List<CategoryEntity>> get() = _categories // Exposed as a public LiveData
+    private val _categories = MutableLiveData<List<CategoryEntity>>()
+    val categories: LiveData<List<CategoryEntity>> get() = _categories
 
-    // Insert an expense
     fun insertExpense(expense: ExpenseEntity) {
         CoroutineScope(Dispatchers.IO).launch {
-            expenseRepository.insertExpense(expense)
+            try {
+                expenseRepository.insertExpense(expense)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
-    // Get all expenses
     fun getAllExpenses() {
         CoroutineScope(Dispatchers.IO).launch {
-            val expensesList = expenseRepository.getAllExpenses()
-            _expenses.postValue(expensesList)
+            try {
+                val expensesList = expenseRepository.getAllExpenses()
+                _expenses.postValue(expensesList)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
-    // Get expenses within a date range
     fun getExpensesBetweenDates(startDate: String, endDate: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val expensesList = expenseRepository.getExpensesBetweenDates(startDate, endDate)
-            _expenses.postValue(expensesList)
+            try {
+                val expensesList = expenseRepository.getExpensesBetweenDates(startDate, endDate)
+                _expenses.postValue(expensesList)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
-    // Get total by category within a date range
     fun getTotalByCategory(startDate: String, endDate: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val totals = expenseRepository.getTotalByCategory(startDate, endDate)
-            _categoryTotals.postValue(totals)
+            try {
+                val totals = expenseRepository.getTotalByCategory(startDate, endDate)
+                _categoryTotals.postValue(totals)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
-    // Get all categories
     fun getAllCategories() {
         CoroutineScope(Dispatchers.IO).launch {
-            val categoriesList = categoryRepository.getAllCategories() // Fetch categories from CategoryRepository
-            _categories.postValue(categoriesList)
+            try {
+                val categoriesList = categoryRepository.getAllCategories()
+                _categories.postValue(categoriesList)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun deleteAllExpenses() {
+        CoroutineScope(Dispatchers.IO).launch {
+            expenseRepository.deleteAllExpenses()
+            getAllExpenses() // Refresh the list after deleting
         }
     }
 

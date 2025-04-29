@@ -66,5 +66,13 @@ class ExpenseRepository(context: Context) {
         return withContext(Dispatchers.IO) {
             categoryDao.getAllCategories()
         }
+
     }
+
+    suspend fun deleteAllExpenses() {
+        withContext(Dispatchers.IO) {
+            expenseDao.deleteAllExpenses()
+        }
+    }
+
 }

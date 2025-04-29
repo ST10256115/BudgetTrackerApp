@@ -28,4 +28,8 @@ interface ExpenseDao {
             "WHERE e.date BETWEEN :startDate AND :endDate " +
             "GROUP BY c.name")
     suspend fun getTotalAmountByCategory(startDate: String, endDate: String): List<CategoryTotal>
+
+    @Query("DELETE FROM expenses")
+    suspend fun deleteAllExpenses()
+
 }
