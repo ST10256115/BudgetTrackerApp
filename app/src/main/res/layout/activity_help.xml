@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- App Introduction -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to the VASS Budget App!"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_marginBottom="12dp" />
+
+        <!-- App Purpose -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This app helps you manage your personal finances with ease. You can log your daily expenses, organize them into categories, view spending graphs, and even set monthly goals."
+            android:textSize="16sp"
+            android:textAlignment="center"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Step-by-step Guide -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="How to Use the App:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. Log in using your username and password.\n\n2. Add a new expense using the 'Add Expense' button.\n\n3. Categorize your expenses by adding categories.\n\n4. Use 'Sort by Time Period' to filter transactions by date.\n\n5. Click 'View Graph' to visualize your spending.\n\n6. Set a spending goal and track your progress.\n\n7. Use the 'Reset' button to view all expenses again.\n\n8. Delete all expenses if needed (this cannot be undone)."
+            android:textSize="16sp"
+            android:layout_marginBottom="24dp" />
+
+
+        <!-- Support Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Need Help?"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Contact Info -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📞 Call: 0800-BUDGET\n✉️ Email: support@vassapp.co.za"
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textAlignment="center" />
+    </LinearLayout>
+</ScrollView>

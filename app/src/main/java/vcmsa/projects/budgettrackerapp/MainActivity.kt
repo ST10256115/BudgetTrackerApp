@@ -1,18 +1,20 @@
 package vcmsa.projects.budgettrackerapp
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.content.Intent
-import android.widget.Button
-import android.widget.Toast
+import com.google.firebase.FirebaseApp
 
-// Developed with guidance and assistance using best practices from Android documentation and community standards.
 class MainActivity : AppCompatActivity() {
     private val expenseViewModel: ExpenseViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
@@ -20,11 +22,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this)
+
+        // Setup dark mode from saved preference
+        val prefs: SharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+        val isDarkMode = prefs.getBoolean("dark_mode", false)
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
+
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
         expenseAdapter = ExpenseAdapter(emptyList())
         recyclerView.adapter = expenseAdapter
 
@@ -74,6 +86,26 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnDeleteAllExpenses).setOnClickListener {
             showConfirmDeleteDialog()
         }
+
+        findViewById<Button>(R.id.btnViewGraph).setOnClickListener {
+            startActivity(Intent(this, ChartActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnViewGoalStatus).setOnClickListener {
+            startActivity(Intent(this, GoalStatusActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnToggleDarkMode).setOnClickListener {
+            val current = prefs.getBoolean("dark_mode", false)
+            val newMode = !current
+            prefs.edit().putBoolean("dark_mode", newMode).apply()
+            AppCompatDelegate.setDefaultNightMode(
+                if (newMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            )
+        }
+
+        // TEMP: Test Firestore write
+        expenseViewModel.testWriteToFirestore()
     }
 
     override fun onResume() {

@@ -14,21 +14,22 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp" />
 
-        <!-- All buttons neatly in one vertical stack -->
+        <!-- All buttons neatly spaced -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="8dp">
 
             <Button
                 android:id="@+id/btnAddExpense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Add Expense"
                 android:background="@color/black"
                 android:textColor="#FFFFFF" />
@@ -37,7 +38,7 @@
                 android:id="@+id/btnAddCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Add Category"
                 android:background="@color/black"
                 android:textColor="#FFFFFF" />
@@ -46,7 +47,7 @@
                 android:id="@+id/btnSortByTimePeriod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Sort by Time Period"
                 android:background="@color/black"
                 android:textColor="#FFFFFF" />
@@ -55,7 +56,7 @@
                 android:id="@+id/btnResetExpenses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Reset Expenses"
                 android:background="@color/black"
                 android:textColor="#FFFFFF" />
@@ -64,8 +65,17 @@
                 android:id="@+id/btnViewCategoryTotals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="View Category Totals"
+                android:background="@color/black"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnViewGraph"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="View Graph"
                 android:background="@color/black"
                 android:textColor="#FFFFFF" />
 
@@ -73,7 +83,7 @@
                 android:id="@+id/btnFilterByCategoryAndTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Filter by Category and Time"
                 android:background="@color/black"
                 android:textColor="#FFFFFF" />
@@ -82,7 +92,7 @@
                 android:id="@+id/btnDeleteAllExpenses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Delete All Expenses"
                 android:background="@color/black"
                 android:textColor="#FFFFFF" />
@@ -91,12 +101,28 @@
                 android:id="@+id/btnSetSpendingGoal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="Set Spending Goal"
                 android:background="@color/black"
                 android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnViewGoalStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="View Goal Status"
+                android:background="@color/black"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnToggleDarkMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Toggle Dark Mode"
+                android:background="@color/black"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
-
     </LinearLayout>
-
 </RelativeLayout>

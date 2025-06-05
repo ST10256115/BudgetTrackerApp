@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,6 +9,7 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <!-- Welcome Text -->
         <TextView
             android:id="@+id/textViewWelcome"
             android:text="Welcome to VASS Budget App"
@@ -17,9 +17,21 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             android:textColor="@android:color/black" />
 
+        <!-- Fancy 'B' Logo -->
+        <TextView
+            android:id="@+id/textViewLogo"
+            android:text="B"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            android:textColor="#4CAF50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Username -->
         <EditText
             android:id="@+id/editTextUsername"
             android:hint="Username"
@@ -30,6 +42,7 @@
             android:layout_marginTop="16dp"
             android:padding="12dp" />
 
+        <!-- Password -->
         <EditText
             android:id="@+id/editTextPassword"
             android:hint="Password"
@@ -40,6 +53,15 @@
             android:layout_marginTop="16dp"
             android:padding="12dp" />
 
+        <!-- Remember Me Checkbox -->
+        <CheckBox
+            android:id="@+id/checkboxRememberMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember Me"
+            android:layout_marginTop="16dp" />
+
+        <!-- Login Button -->
         <Button
             android:id="@+id/buttonLogin"
             android:text="Login"
@@ -48,5 +70,16 @@
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"
             android:minHeight="48dp" />
+
+        <!-- Help Button -->
+        <Button
+            android:id="@+id/buttonHelp"
+            android:text="Need Help?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center_horizontal"
+            android:minHeight="48dp"
+            android:backgroundTint="@android:color/holo_blue_light" />
     </LinearLayout>
 </ScrollView>

@@ -1,9 +1,11 @@
 package vcmsa.projects.budgettrackerapp
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -83,4 +85,20 @@ class ExpenseViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    //Firestore Test
+    fun testWriteToFirestore() {
+        val db = FirebaseFirestore.getInstance()
+        val testData = hashMapOf(
+            "testField" to "Hello Firestore!",
+            "timestamp" to System.currentTimeMillis()
+        )
+        db.collection("testCollection")
+            .add(testData)
+            .addOnSuccessListener {
+                Log.d("FirestoreTest", "Document added with ID: ${it.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.e("FirestoreTest", "Error adding document", e)
+            }
+    }
 }
