@@ -1,76 +1,108 @@
 # VASS Budget Tracker App
 
-A simple Android app for tracking personal expenses, managing categories, setting spending goals, and filtering expenses by time period or category.
+A clean, simple and powerful Android app for tracking personal expenses, managing categories, setting goals, visualizing spending, and more. Built for ease of use and effective budget control.
 
 ---
 
 ## Features
-- Add, edit, and delete expenses.
-- Categorize your spending.
-- Set minimum and maximum monthly spending goals.
-- View total spending by category.
-- Filter expenses by date range or category.
-- Capture and attach photos (optional).
-- Login screen for user authentication (hardcoded credentials).
+
+- User Authentication via login screen (local hardcoded credentials)
+- Add, edit, and delete expenses
+- Categorize your expenses with custom categories
+- Set monthly spending goals and track them
+- Filter expenses by date, category, or both
+- View total spending by category
+- Visualize expenses using a bar chart
+- Dark Mode toggle for better user experience
+- "Remember Me" option for login persistence
+- Help Page with contact and usage instructions
+- Reset view and delete all expenses
+- Firebase Firestore integration (basic test write)
+- [Optional] Camera/photo features (not implemented)
 
 ---
 
 ## Technologies Used
-- Kotlin
-- Android Studio
-- Room Database
-- MVVM Architecture
-- LiveData and ViewModel
-- Material Design Components
-- GitHub Actions for CI/CD (Gradle build and test)
+
+- Language: Kotlin
+- IDE: Android Studio
+- Architecture: MVVM (Model-View-ViewModel)
+- Database: Room (SQLite)
+- UI Toolkit: Material Design Components
+- LiveData & ViewModel: For reactive UIs
+- Firebase Firestore: For cloud data storage (test-only)
+- GitHub Actions: For Continuous Integration (build + unit tests)
 
 ---
 
 ## Project Structure
-vcmsa.projects.budgettrackerapp │ ├── data (entities, dao, database builder) ├── repository (data access logic) ├── viewmodel (business logic for UI) ├── ui (activities, adapters, layouts) ├── utils (helpers and constants if any) └── .github/workflows (CI/CD automation scripts)
 
+```
+vcmsa.projects.budgettrackerapp
+├── data/         # Entities, DAOs, and Database builder
+├── repository/   # ExpenseRepository
+├── viewmodel/    # ExpenseViewModel
+├── ui/           # Activities, Adapters, Layouts
+├── utils/        # Utility classes (if applicable)
+└── .github/workflows/  # CI/CD GitHub Actions workflow
+```
 
-## ⚙️ How to Build and Run
-1. Clone the repository:
+---
+
+## How to Build and Run
+
+1. Clone this repository:
    ```bash
    git clone https://github.com/your-username/your-repo-name.git
-2. Open the project in Android Studio.
+   ```
 
-3. Let Gradle sync and download dependencies.
+2. Open the project in Android Studio
 
-4. Build and run on an Android device or emulator.
+3. Allow Gradle to sync and download dependencies
 
-5. Default login credentials:
+4. Run the app on a physical device or emulator
 
+5. Login Credentials:
    - Username: shivar
-
    - Password: password
 
-GitHub Actions CI
-- Automatically builds and tests the app when pushing to the master branch.
+---
 
-- Gradle tasks executed:
+## Demo Video
 
-- assembleDebug
+[Watch the Demo](https://youtu.be/BwjJLUys-04)
 
-- test
+---
 
-Demo Video
-https://youtu.be/BwjJLUys-04
+## CI/CD via GitHub Actions
 
-Author
-Developers: Shivar Tuplah, Ahmed Vally, Shaymen Gerard Kista, Vidur Somaru
+- Auto-triggered on push to `master` branch
+- Performs:
+  - assembleDebug
+  - test
+
+---
+
+## Developers
+
+- Shivar Tuplah
+- Ahmed Vally
+- Shaymen Gerard Kista
+- Vidur Somaru
 
 Organization: VASS
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+---
 
-Notes
-Minimum SDK Version: 32
+## License
 
-Target SDK Version: 35
+This project is licensed under the MIT License — see the `LICENSE` file for more details.
 
-No backend or online authentication (local login only).
+---
 
-Images are stored locally using URIs.
+## Notes
+
+- Minimum SDK Version: 32  
+- Target SDK Version: 35  
+- No backend or online authentication – all data is stored locally.
+- All images (if implemented) will be stored locally using URIs.
