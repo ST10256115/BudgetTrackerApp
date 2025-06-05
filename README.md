@@ -70,7 +70,7 @@ vcmsa.projects.budgettrackerapp
 
 ## Demo Video
 
-[Watch the Demo](https://youtu.be/BwjJLUys-04)
+[Watch the Demo](https://youtu.be/W9JGUvCsDuk)
 
 ---
 
